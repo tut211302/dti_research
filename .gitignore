@@ -1,0 +1,7 @@
+raw/
+*.nii.gz
+*.tar
+*.tar.gz
+derivatives/dticsd/sub-*
+preproc/sub-*
+preproc/test
