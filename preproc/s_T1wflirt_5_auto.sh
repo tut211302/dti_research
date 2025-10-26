@@ -84,5 +84,7 @@ for subdir in $RAW_DIR/sub-*; do
     echo
 
     echo "Completed subject: $sub"
+
+    break
 done
 

@@ -5,3 +5,4 @@ raw/
 derivatives/dticsd/sub-*
 preproc/sub-*
 preproc/test
+*.mif

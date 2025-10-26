@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RAW_DIR=/home/brain/research/DATA/BIDS/raw
-PREPROC_DIR=/home/brain/research/DATA/BIDS/preproc
+RAW_DIR=/media/sf_share/MRI_MPILMBB_LEMON/MRI_Raw
+PREPROC_DIR=/home/brain/dti_research/preproc
 
 # RAW_DIR内の被験者フォルダを自動検出
 for subj_path in ${RAW_DIR}/sub-*; do
@@ -54,4 +54,6 @@ for subj_path in ${RAW_DIR}/sub-*; do
     echo
 
     echo "Finished TOPUP for ${subj_id}"
+
+    break
 done

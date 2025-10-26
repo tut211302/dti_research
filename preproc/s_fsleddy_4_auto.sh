@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RAW_DIR=/home/brain/research/DATA/BIDS/raw
-PREPROC_DIR=/home/brain/research/DATA/BIDS/preproc
+RAW_DIR=/media/sf_share/MRI_MPILMBB_LEMON/MRI_Raw
+PREPROC_DIR=/home/brain/dti_research/preproc
 
 # RAW_DIR内の被験者フォルダを自動検出
 for subj_path in ${RAW_DIR}/sub-*; do
@@ -19,7 +19,9 @@ for subj_path in ${RAW_DIR}/sub-*; do
     # BET & EDDY
     step_start=$(date +%s)
     bet b0_PA_1 b0_PA1_brain -m -f 0.2
+    #bet unwarped_images_mean.nii.gz mean_b0_brain -m -f 0.2
     nvols=$(fslval ${subj_path}/ses-01/dwi/${subj_id}_ses-01_dwi.nii.gz dim4)
+    #nvols=$(fslval ${PREPROC_DIR}/${subj_id}/unwarped_images.nii.gz dim4)
     yes 4 | head -n $nvols > index_PA.txt
     step_end=$(date +%s)
     echo "Step #4 completed in $((step_end - step_start)) sec"
@@ -29,6 +31,9 @@ for subj_path in ${RAW_DIR}/sub-*; do
     # ================================
      
     step_start=$(date +%s)
+
+    #--imain=${PREPROC_DIR}/${subj_id}/unwarped_images.nii.gz \
+    #         --mask=mean_b0_brain_mask.nii.gz \
     eddy_cpu --imain=${subj_path}/ses-01/dwi/${subj_id}_ses-01_dwi.nii.gz \
              --mask=b0_PA1_brain_mask.nii.gz \
              --index=index_PA.txt \
@@ -44,5 +49,7 @@ for subj_path in ${RAW_DIR}/sub-*; do
     echo
 
     echo "Finished EDDY ${subj_id}"
+
+    break
 done
 
