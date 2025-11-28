@@ -3,6 +3,8 @@ raw/
 *.tar
 *.tar.gz
 derivatives/dticsd/sub-*
+derivatives/pyafq/sub-*
+derivatives/tractography/sub-*
 preproc/sub-*
 preproc/test
 *.mif

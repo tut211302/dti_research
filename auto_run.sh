@@ -1,22 +1,25 @@
 #!/bin/bash
 
-# ログファイルの指定
-LOGFILE="auto_run.log"
+LOGFILE="./auto_run.log"
+echo "===== Auto Run Started: $(date) =====" >> $LOGFILE
 
-# ログファイルの開始メッセージ
-echo "===== Auto Run Start: $(date) =====" >> $LOGFILE
+# 実行したいスクリプトを順番に列挙
+SCRIPTS=(
+    "/home/brain/dti_research/scripts/s_fsltopup_3_auto.sh"
+    "/home/brain/dti_research/scripts/s_fsleddy_4_auto.sh"
+    "/home/brain/dti_research/scripts/s_T1wflirt_5_auto.sh"
+)
 
-# カレントディレクトリ内のすべての .sh ファイルを順番に実行
-for script in ./*.sh; do
-    # 自分自身 (auto_run.sh) はスキップ
-    if [[ "$script" == "./auto_run.sh" ]]; then
+# 指定された順番で順次実行
+for script in "${SCRIPTS[@]}"; do
+    if [[ ! -f "$script" ]]; then
+        echo "Skipped: $script not found." | tee -a $LOGFILE
         continue
     fi
 
     echo "Running $script ..." | tee -a $LOGFILE
     bash "$script" >> $LOGFILE 2>&1
 
-    # ステータスチェック
     if [[ $? -eq 0 ]]; then
         echo "$script completed successfully." | tee -a $LOGFILE
     else

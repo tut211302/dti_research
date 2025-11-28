@@ -1,11 +1,8 @@
 #!/bin/bash
 
 # データディレクトリ
-RAW_DIR=/home/brain/research/DATA/BIDS/raw
-PREPROC_DIR=/home/brain/research/DATA/BIDS/preproc
-
-mkdir -p $PREPROC_DIR
-cd $PREPROC_DIR
+RAW_DIR=/media/sf_share/MRI_MPILMBB_LEMON/MRI_Raw
+PREPROC_DIR="/home/brain/dti_research/preproc"
 
 # RAW_DIR 内の被験者ディレクトリをループ
 for subdir in $RAW_DIR/sub-*; do
@@ -13,6 +10,8 @@ for subdir in $RAW_DIR/sub-*; do
     echo "=============================="
     echo "Processing subject: $sub"
     echo "=============================="
+
+    cd ${PREPROC_DIR}/${sub}
 
     # ファイルパス
     DWI_FILE=$subdir/ses-01/dwi/${sub}_ses-01_dwi.nii.gz
@@ -25,7 +24,7 @@ for subdir in $RAW_DIR/sub-*; do
     # ================================
     step_start=$(date +%s)
     echo "Extracting b=0 image for registration with T1w"
-    fslroi ${PREPROC_DIR}/${sub}_ses-01_dir-PA_dwi_aftereddy.nii.gz b0_1_PA_aftereddy.nii.gz 0 1
+    fslroi ${sub}_ses-01_dir-PA_dwi_aftereddy.nii.gz b0_1_PA_aftereddy.nii.gz 0 -1 0 -1 0 -1 0 1
     step_end=$(date +%s)
     echo "Step #6 completed in $((step_end - step_start)) sec"
     echo
@@ -75,9 +74,9 @@ for subdir in $RAW_DIR/sub-*; do
     # ================================
     step_start=$(date +%s)
     echo "Converting preprocessed DWI data to MRtrix format"
-    mrconvert ${PREPROC_DIR}/${sub}_ses-01_dir-PA_dwi_aftereddy.nii.gz \
-        ${PREPROC_DIR}/${sub}_ses-01_dir-PA_dwi_aftereddy.mif \
-        -fslgrad ${PREPROC_DIR}/${sub}_ses-01_dir-PA_dwi_aftereddy.eddy_rotated_bvecs \
+    mrconvert ${sub}_ses-01_dir-PA_dwi_aftereddy.nii.gz \
+        ${sub}_ses-01_dir-PA_dwi_aftereddy.mif \
+        -fslgrad ${sub}_ses-01_dir-PA_dwi_aftereddy.nii.gz.eddy_rotated_bvecs \
                  $BVAL_FILE -force
     step_end=$(date +%s)
     echo "Step #11 completed in $((step_end - step_start)) sec"
