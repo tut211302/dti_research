@@ -1,7 +1,12 @@
 raw/
 *.nii.gz
+*.nii
 *.tar
 *.tar.gz
+*.txt
+*.mat
+*.vtk
+*.bvars
 derivatives/dticsd/sub-*
 derivatives/pyafq/sub-*
 derivatives/tractography/sub-*

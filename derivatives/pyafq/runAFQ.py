@@ -12,7 +12,8 @@ bvec_path = op.join(bids_path,'preproc','test','sub-032301_ses-01_dir-PA_dwi_aft
 #/home/brain/dti_research/preproc/test/sub-032301_ses-01_dir-PA_dwi_aftereddy.eddy_rotated_bvecs
 mask_path = op.join(bids_path,'preproc','test','b0_1_PA_aftereddy_brain_mask.nii.gz')
 #tck_path = op.join(bids_path,'derivatives','dticsd','sub-01','CSD_Prob_ACT_300000.tck')
-tck_path = op.join(bids_path,'derivatives','tractography','test','Tensor_Det_leftV1_500.tck')
+# Use the existing tractography filename (matches check_pyafq_inputs.py)
+tck_path = op.join(bids_path,'derivatives','tractography','test','Tensor_Det_500_leftV1.tck')
 
 out_dir = op.join(bids_path,'derivatives','pyafq','sub-032301')
 

@@ -3,11 +3,11 @@
 # 5TT generation for all subjects
 # =======================================
 
-RAW_DIR="/home/brain/dti_research/preproc"
+PREPROC_DIR="/home/brain/dti_research/preproc"
 DERIV_DIR="/home/brain/dti_research/derivatives/dticsd"
 
 # RAW_DIR内の被験者フォルダを自動検出
-for subj_path in ${RAW_DIR}/sub-*; do
+for subj_path in ${PREPROC_DIR}/sub-*; do
     SUBJECT_ID=$(basename ${subj_path})
     echo "======================================="
     echo "Running 5TT generation for ${SUBJECT_ID}"
@@ -22,7 +22,7 @@ for subj_path in ${RAW_DIR}/sub-*; do
     # ================================
     step_start=$(date +%s)
     echo "[Step 1/3] Copying T1-weighted image (in DWI space)..."
-    cp ${RAW_DIR}/${SUBJECT_ID}/T1w_in_dwi_space_highres.nii.gz .
+    cp ${PREPROC_DIR}/${SUBJECT_ID}/T1w_in_dwi_space_highres.nii.gz .
     step_end=$(date +%s)
     echo "Step #1 completed in $((step_end - step_start)) sec"
     echo
@@ -32,7 +32,7 @@ for subj_path in ${RAW_DIR}/sub-*; do
     # ================================
     step_start=$(date +%s)
     echo "[Step 2/3] Generating 5TT.mif using FSL-based segmentation..."
-    5ttgen fsl T1w_in_dwi_space_highres.nii.gz 5TT.mif -nocleanup -force
+    5ttgen freesurfer T1w_in_dwi_space_highres.nii.gz 5TT.mif -nocleanup -force
     step_end=$(date +%s)
     echo "Step #2 completed in $((step_end - step_start)) sec"
     echo
